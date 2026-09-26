@@ -537,15 +537,284 @@ const loadingVideo =
     document.querySelector("#loading-video");
 
 
-if (loadingScreen && loadingVideo) {
+if (loadingScreen) {
 
-    loadingVideo.addEventListener(
-        "ended",
+    // Make sure the loading screen starts visible
+    loadingScreen.classList.remove("hidden");
+
+
+    // If there is a loading video
+    if (loadingVideo) {
+
+        loadingVideo.addEventListener(
+            "ended",
+            () => {
+
+                loadingScreen.classList.add("hidden");
+
+            }
+        );
+
+
+        // Fallback:
+        // if the video cannot load/play,
+        // don't leave the website stuck forever.
+        loadingVideo.addEventListener(
+            "error",
+            () => {
+
+                loadingScreen.classList.add("hidden");
+
+            }
+        );
+
+    }
+
+
+    // Extra fallback in case the video
+    // doesn't trigger "ended".
+    window.addEventListener(
+        "load",
         () => {
 
-            loadingScreen.classList.add("hidden");
+            setTimeout(() => {
+
+                loadingScreen.classList.add("hidden");
+
+            }, 500);
 
         }
     );
+
+}
+
+/* =========================
+   PROJECT SHOWCASE
+========================= */
+
+const projectData = [
+
+    {
+        number: "01",
+        title: "Project Name",
+        category: "WEB DESIGN",
+        description:
+            "A modern website designed with a clean visual system, responsive layout, and a strong focus on presentation.",
+        location: "Bandung, Indonesia",
+        year: "2026",
+        image: "assets/images/project-01.jpg",
+        link: "#"
+    },
+
+    {
+        number: "02",
+        title: "Project Name",
+        category: "WEB DEVELOPMENT",
+        description:
+            "A responsive web project built to provide a smooth experience across desktop and mobile devices.",
+        location: "Bandung, Indonesia",
+        year: "2026",
+        image: "assets/images/project-02.jpg",
+        link: "#"
+    },
+
+    {
+        number: "03",
+        title: "Project Name",
+        category: "LANDING PAGE",
+        description:
+            "A focused landing page created to present a brand, service, or idea with a clear and engaging layout.",
+        location: "Bandung, Indonesia",
+        year: "2026",
+        image: "assets/images/project-03.jpg",
+        link: "#"
+    },
+
+    {
+        number: "04",
+        title: "Project Name",
+        category: "CREATIVE WEBSITE",
+        description:
+            "A creative web experience combining visual design, interaction, and responsive development.",
+        location: "Bandung, Indonesia",
+        year: "2026",
+        image: "assets/images/project-04.jpg",
+        link: "#"
+    },
+
+    {
+        number: "05",
+        title: "Project Name",
+        category: "WEB EXPERIENCE",
+        description:
+            "An experimental web project focused on creating an immersive and memorable digital experience.",
+        location: "Bandung, Indonesia",
+        year: "2026",
+        image: "assets/images/project-05.jpg",
+        link: "#"
+    }
+
+];
+
+
+/* =========================
+   PROJECT ELEMENTS
+========================= */
+
+const projectButtons =
+    document.querySelectorAll(
+        ".project-selector-item"
+    );
+
+const projectImage =
+    document.querySelector(
+        "#project-display-image"
+    );
+
+const projectCategory =
+    document.querySelector(
+        "#project-display-category"
+    );
+
+const projectTitle =
+    document.querySelector(
+        "#project-display-title"
+    );
+
+const projectDescription =
+    document.querySelector(
+        "#project-display-description"
+    );
+
+const projectLocation =
+    document.querySelector(
+        "#project-display-location"
+    );
+
+const projectYear =
+    document.querySelector(
+        "#project-display-year"
+    );
+
+const projectLink =
+    document.querySelector(
+        "#project-display-link"
+    );
+
+
+/* =========================
+   SHOW PROJECT
+========================= */
+
+function showProject(index) {
+
+    const project =
+        projectData[index];
+
+    if (!project) {
+        return;
+    }
+
+
+    if (projectImage) {
+
+        projectImage.src =
+            project.image;
+
+        projectImage.alt =
+            project.title;
+
+    }
+
+
+    if (projectCategory) {
+
+        projectCategory.textContent =
+            project.category;
+
+    }
+
+
+    if (projectTitle) {
+
+        projectTitle.textContent =
+            project.title;
+
+    }
+
+
+    if (projectDescription) {
+
+        projectDescription.textContent =
+            project.description;
+
+    }
+
+
+    if (projectLocation) {
+
+        projectLocation.textContent =
+            project.location;
+
+    }
+
+
+    if (projectYear) {
+
+        projectYear.textContent =
+            project.year;
+
+    }
+
+
+    if (projectLink) {
+
+        projectLink.href =
+            project.link;
+
+    }
+
+
+    projectButtons.forEach(
+        (button, buttonIndex) => {
+
+            button.classList.toggle(
+                "active",
+                buttonIndex === index
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   PROJECT BUTTONS
+========================= */
+
+projectButtons.forEach(
+    (button, index) => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                showProject(index);
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================
+   INITIAL PROJECT
+========================= */
+
+if (projectButtons.length > 0) {
+
+    showProject(0);
 
 }
